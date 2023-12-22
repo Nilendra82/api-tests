@@ -2,6 +2,7 @@ package automation.api_tests.tests;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
@@ -64,25 +65,25 @@ public class TestGETMovie {
 		
 		int statusCode = response.getStatusCode();
 		
-		assertEquals(statusCode, HttpErrorCode.OK);
+		AssertJUnit.assertEquals(statusCode, HttpErrorCode.OK);
 		logger.info("Response code is success ok - [" + statusCode + "]");
 		
 		int movieLength = movieList.getGenres().size();
-		assertEquals(movieLength, Integer.parseInt(MOVIE_LENGTH));
+		AssertJUnit.assertEquals(movieLength, Integer.parseInt(MOVIE_LENGTH));
 		logger.info("Total number of movie: " + movieLength);
 		
 		String productionCompanyName = movieList.getProduction_companies().get(0).getName();
-		assertEquals(productionCompanyName, PRODUCTION_COMPANY_NAME);
+		AssertJUnit.assertEquals(productionCompanyName, PRODUCTION_COMPANY_NAME);
 		logger.info("Name of Production Company: " + productionCompanyName);
 	}
 	
-	// GET call with invalid api key (Unauthorized)
+	//GET call with invalid api key (Unauthorized)
 	@Test()
 	public void testGetTopRatedMovieByAPIKeyInvalid() throws ParseException, IOException {
 			
 		Response response = RestAssured
 				.given()
-				.queryParam("api_key", API_KEY_INVALID)
+	 			.queryParam("api_key", API_KEY_INVALID)
 				.contentType(ContentType.JSON)
 				.get(EndPoints.GET_TOP_RATED_MOVIE)
 				.andReturn();
